@@ -1,0 +1,11 @@
+{
+  "name": "token-microservice",
+  "version": "1.0.0",
+  "description": "A small microservice to handle token state management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shannon Duncan (ShadowCodex)",
+  "license": "MIT"
+}
