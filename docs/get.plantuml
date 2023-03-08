@@ -1,0 +1,33 @@
+@startuml GET
+participant server
+participant micro
+control KMS
+database secret 
+participant service
+
+autonumber
+server -> server : Generate request JWT
+server --> micro : GET token
+micro -> micro : Validate JWT
+micro --> secret : retrieve user token
+micro -> KMS : decrypt user token
+KMS -> micro
+micro -> micro : Validate token
+alt valid token
+    micro -> micro : Check if refresh needed
+    alt no refresh needed
+        micro -> micro : create JWT
+    else refresh needed
+        micro --> service : refresh token
+        service --> micro : new token
+        micro -> KMS : encrypt token
+        micro --> secret : update token
+        micro -> micro : create JWT
+    end
+    micro --> server : return jwt
+else invalid token
+    micro --> server : return error
+end
+
+        
+@enduml

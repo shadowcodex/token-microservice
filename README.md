@@ -44,6 +44,8 @@ Signature: `Signature bytes`
 
 **Response** = `ok` or `error`
 
+![POST Sequence Diagram](out/docs/post/POST.png)
+
 ### Retrieve Token
 
 GET `/{service}`
@@ -81,3 +83,5 @@ PayLoad:
 }
 Signature: `Signature bytes`
 ```
+
+![GET Sequence Diagram](out/docs/get/GET.png)

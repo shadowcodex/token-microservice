@@ -1,9 +1,8 @@
-@startuml sequence
+@startuml POST
 server -> server : Generate request JWT
 server --> micro : POST token
 micro -> micro : Validate JWT
 micro -> KMS : encrypt user token
 KMS -> micro
 micro --> secret : store user token <user:service => encrypted_token>
-micro --> server : OK
-
+micro --> server : Return "OK"
