@@ -1,6 +1,6 @@
 type SecretStore = {
-  get: (id: string) => string | undefined;
-  put: (id: string, secret: string) => boolean;
+  get: (id: string) => Promise<string | undefined>;
+  put: (id: string, secret: string) => Promise<boolean>;
 };
 
 export default SecretStore;

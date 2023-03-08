@@ -1,7 +1,7 @@
 import SecretStore from "./secret-store";
 import vault from "vault-api";
 
-function async put(id: string, secret: string): boolean {
+const put =  async (id: string, secret: string): Promise<boolean> => {
   let res = await vault({
     method: "write",
     path: id,
@@ -18,7 +18,7 @@ function async put(id: string, secret: string): boolean {
   }
 }
 
-function async get(id: string): string | undefined {
+const get = async (id: string): Promise<string | undefined> => {
   let res = await vault({
     method: "read",
     path: id,
