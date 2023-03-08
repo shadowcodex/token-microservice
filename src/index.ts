@@ -1,11 +1,15 @@
-import * as dotenv from 'dotenv'
-dotenv.config()
-import express from 'express';
+import * as dotenv from "dotenv";
+dotenv.config();
+import express from "express";
+import getSecretStore from "./services/secrets";
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+// Setup Providers
+let secretStore = getSecretStore();
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
 app.listen(port, () => {

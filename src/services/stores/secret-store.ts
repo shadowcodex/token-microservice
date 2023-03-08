@@ -1,6 +1,6 @@
 type SecretStore = {
-    get: any;
-    put: any;
-}
+  get: (id: string) => string | undefined;
+  put: (id: string, secret: string) => boolean;
+};
 
-export default SecretStore
+export default SecretStore;
