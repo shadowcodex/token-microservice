@@ -10,8 +10,9 @@ This microservice implements a secure state management endpoint for managing tok
 
 1. Uses JWKS to validate requests from other backend services.
 2. Returns signed JWT with latest token included
-3. Tokens stored in AWS Secrets Manager backed by AWS KMS.
-4. Cloudformation code to deploy to ECS and restrict access to Secrets Manager to VM's on the ECS.
+3. Tokens stored in Hashicorp Vault backed by AWS KMS.
+
+> You should really only run this in your backend service protected by VPC / Firewalls / Service Perimeters. Not meant to be ran over open internet.
 
 ## Planned Supported Services
 
