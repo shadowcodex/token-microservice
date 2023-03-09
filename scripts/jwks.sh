@@ -1,8 +1,5 @@
 #!/bin/sh
 ## Requires openssl, nodejs, jq
-## FIXES for jwt.io compliance
-# use base64Url encoding
-# use echo -n in pack function
 
 header='
 {
@@ -11,11 +8,12 @@ header='
 }'
 payload='
 {
-  "iss": "https://example.com",
-  "sub": "user-id-123",
-  "aud": "client-app-id-123",
+  "iss": "https://token-microservice.com",
+  "sub": "user-id-12356",
+  "aud": "token-microservice",
+  "serviceToken": "1234.1234.123345",
   "exp": 1735689600,
-  "iat": 1563980400
+  "iat": 1678336569
 }'
 
 function pack() {
@@ -55,10 +53,10 @@ signature=$(echo -n $b64_header.$b64_payload | openssl dgst -sha256 -sign privat
 # Export JWT
 echo $b64_header.$b64_payload.$signature > jwt.txt
 # Create JWK from public key
-# if [ ! -d ./node_modules/pem-jwk ]; then
-#   # A tool to convert PEM to JWK
-#   npm install pem-jwk
-# fi
+if [ ! -d ./node_modules/pem-jwk ]; then
+  # A tool to convert PEM to JWK
+  npm install --global pem-jwk
+fi
 jwk=$(npx pem-jwk public-key.pem)
 # Add additional fields
 jwk=$(echo '{"use":"sig"}' $jwk $header | jq -cs add)
