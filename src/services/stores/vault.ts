@@ -1,10 +1,10 @@
-import SecretStore from "./secret-store";
+import {SecretStore} from "./secret-store";
 import vault from "vault-api";
 
 const put =  async (id: string, secret: string): Promise<boolean> => {
   let res = await vault({
     method: "write",
-    path: id,
+    path: "secret/" + id,
     data: {
       secret: secret,
     },
@@ -21,7 +21,7 @@ const put =  async (id: string, secret: string): Promise<boolean> => {
 const get = async (id: string): Promise<string | undefined> => {
   let res = await vault({
     method: "read",
-    path: id,
+    path: "secret/" + id,
   });
 
   if (res && res.statusCode == 200 && "secret" in res.data) {

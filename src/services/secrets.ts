@@ -1,4 +1,4 @@
-import SecretStore from "./stores/secret-store";
+import {SecretStore} from "./stores/secret-store";
 import initVault from "./stores/vault";
 
 function getSecretStore(): SecretStore {
