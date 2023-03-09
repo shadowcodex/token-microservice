@@ -2,6 +2,10 @@
 
 A small microservice to handle token state management.
 
+## Work In Progress
+
+This is currently in development and not functional yet. Will remove this section once functional version is done.
+
 ## What
 
 This microservice implements a secure state management endpoint for managing tokens and refresh tokens so that backend system can always retrieve the latest token needed for any user and their given OAuth'd service.
