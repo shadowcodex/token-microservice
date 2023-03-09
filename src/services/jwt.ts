@@ -2,7 +2,7 @@ import jwt, { Secret, JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { JwksClient } from "jwks-rsa";
 
-export interface CustomRequest extends Request {
+interface JWTRequest extends Request {
   token: string | JwtPayload;
 }
 
@@ -15,47 +15,40 @@ const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
       throw new Error("No token.");
     }
 
-    const client = req.app.get("jwksClient") as JwksClient
+    const client = req.app.get("jwksClient") as JwksClient;
 
     const getKey = (header, callback) => {
-      client.getSigningKey(header.kid, function(err, key) {
-        var signingKey = key.getPublicKey;
+      client.getSigningKey(header.kid, function (err, key) {
+        var signingKey = key.getPublicKey();
         callback(null, signingKey);
       });
-    }
+    };
     try {
       jwt.verify(token, getKey, (err, decoded) => {
         if (err) {
           throw new Error(err.message);
         } else {
-          (req as CustomRequest).token = decoded;
+          (req as JWTRequest).token = decoded;
+          next();
         }
       });
     } catch (err) {
-      console.log(err)
-      throw new Error("Invalid auth token...")
+      throw new Error("Invalid auth token...");
     }
-
-    next();
   } catch (err) {
-    console.log(err)
     res.status(401).send("Invalid Authentication");
   }
 };
-
 
 const getJWKS = (): JwksClient => {
   const jwksUri = process.env.JWKS_URI;
   if (jwksUri) {
     return new JwksClient({
-      jwksUri
+      jwksUri,
     });
   } else {
-    throw new Error("Invalid JWKS URI in env...")
+    throw new Error("Invalid JWKS URI in env...");
   }
 };
 
-export {
-  getJWKS,
-  validateJWT
-}
+export { getJWKS, validateJWT, JWTRequest };

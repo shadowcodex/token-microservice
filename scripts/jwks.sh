@@ -1,13 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 ## Requires openssl, nodejs, jq
 
-header='
-{
+header='{
   "kid": "6F501184-D8D4-4F35-AF41-C50AF7781070",
-  "alg": "RS256"
+  "alg": "RS256",
+  "typ": "JWT"
 }'
-payload='
-{
+payload='{
   "iss": "https://token-microservice.com",
   "sub": "user-id-12356",
   "aud": "token-microservice",
@@ -46,12 +45,15 @@ if [ ! -f private-key.pem ]; then
   openssl rsa -in private-key.pem -pubout -out public-key.pem
 fi
 
-# Base64 Encoding
-b64_header=$(pack "$header" | base64url_encode)
-b64_payload=$(pack "$payload" | base64url_encode)
-signature=$(echo -n $b64_header.$b64_payload | openssl dgst -sha256 -sign private-key.pem | base64url_encode)
+b64enc() { openssl enc -base64 -A | tr '+/' '-_' | tr -d '='; }
+json() { jq -c . | LC_CTYPE=C tr -d '\n'; }
+rs_sign() { openssl dgst -binary -sha256 -sign private-key.pem; }
+
+HEADER_PAYLOAD="$(json <<<"$header" | b64enc).$(json <<<"$payload" | b64enc)"
+PEM=$( cat private-key.pem )
+signature=$(echo -n $HEADER_PAYLOAD | rs_sign "$PEM" | b64enc)
 # Export JWT
-echo $b64_header.$b64_payload.$signature > jwt.txt
+echo $HEADER_PAYLOAD.$signature > jwt.txt
 # Create JWK from public key
 if [ ! -d ./node_modules/pem-jwk ]; then
   # A tool to convert PEM to JWK

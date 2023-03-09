@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
+import { JWTRequest } from "../services/jwt";
 import { SecretStore } from "../services/stores/secret-store";
 import { getGithubToken, putGithubToken } from "./githubController";
 
-const putToken = async (req: Request, res: Response) => {
+const putToken = async (req: JWTRequest, res: Response) => {
   let service = req.params["service"];
   let secretStore = req.app.get("secretStore") as SecretStore;
   switch (service.toLowerCase()) {
@@ -12,7 +13,7 @@ const putToken = async (req: Request, res: Response) => {
   }
 };
 
-const getToken = async (req: Request, res: Response) => {
+const getToken = async (req: JWTRequest, res: Response) => {
   let service = req.params["service"];
   let secretStore = req.app.get("secretStore") as SecretStore;
   switch (service.toLowerCase()) {

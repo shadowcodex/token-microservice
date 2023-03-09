@@ -17,5 +17,5 @@ docker run --cap-add=IPC_LOCK \
 
 sleep 3
 
-# Start nodemon
-nodemon
+# Start jest
+jest
