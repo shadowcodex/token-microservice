@@ -6,7 +6,7 @@
 
 header='
 {
-  "kid": "12345",
+  "kid": "6F501184-D8D4-4F35-AF41-C50AF7781070",
   "alg": "RS256"
 }'
 payload='
@@ -55,11 +55,11 @@ signature=$(echo -n $b64_header.$b64_payload | openssl dgst -sha256 -sign privat
 # Export JWT
 echo $b64_header.$b64_payload.$signature > jwt.txt
 # Create JWK from public key
-if [ ! -d ./node_modules/pem-jwk ]; then
-  # A tool to convert PEM to JWK
-  npm install pem-jwk
-fi
-jwk=$(./node_modules/.bin/pem-jwk public-key.pem)
+# if [ ! -d ./node_modules/pem-jwk ]; then
+#   # A tool to convert PEM to JWK
+#   npm install pem-jwk
+# fi
+jwk=$(npx pem-jwk public-key.pem)
 # Add additional fields
 jwk=$(echo '{"use":"sig"}' $jwk $header | jq -cs add)
 # Export JWK
