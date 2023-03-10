@@ -1,6 +1,8 @@
 import jwt, { Secret, JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { JwksClient } from "jwks-rsa";
+import { Logger } from "pino";
+import logger from "./logging";
 
 interface JWTRequest extends Request {
   token: string | JwtPayload;
@@ -26,6 +28,7 @@ const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
     try {
       jwt.verify(token, getKey, (err, decoded) => {
         if (err) {
+          logger.error(err.message, "jwt.verify");
           throw new Error(err.message);
         } else {
           (req as JWTRequest).token = decoded;
@@ -36,6 +39,7 @@ const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
       throw new Error("Invalid auth token...");
     }
   } catch (err) {
+    logger.error(err, "validateJWT");
     res.status(401).send("Invalid Authentication");
   }
 };
@@ -47,6 +51,7 @@ const getJWKS = (): JwksClient => {
       jwksUri,
     });
   } else {
+    logger.error("invalid jwks uri", "getJWKS")
     throw new Error("Invalid JWKS URI in env...");
   }
 };

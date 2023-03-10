@@ -1,4 +1,4 @@
-import { getToken, putToken } from "../controllers/serviceController";
+import { getToken, getTokenAll, putToken } from "../controllers/serviceController";
 
 const express = require("express");
 const router = express.Router();
@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/:service", putToken);
 
 // Get existing Token
-router.get("/:service", getToken);
+router.get("/:service/one", getToken);
+router.get("/:service/all", getTokenAll);
 
 export { router as serviceRouter };

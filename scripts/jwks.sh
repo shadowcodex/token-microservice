@@ -10,7 +10,9 @@ payload='{
   "iss": "https://token-microservice.com",
   "sub": "user-id-12356",
   "aud": "token-microservice",
-  "serviceToken": "1234.1234.123345",
+  "serviceToken": "1234.1234.6543211",
+  "applicationID": "1289579187509101",
+  "serviceID": "github-002",
   "exp": 1735689600,
   "iat": 1678336569
 }'
