@@ -1,10 +1,11 @@
 import {SecretStore} from "./secret-store";
 import vault from "vault-api";
+import { VaultResponse } from "vault-api/dist/types";
 
-const put =  async (id: string, secret: string): Promise<boolean> => {
+const put =  async (userid: string, serviceid: string, secret: string): Promise<boolean> => {
   let res = await vault({
     method: "write",
-    path: "secret/" + id,
+    path: `secret/${id}/${serviceid}`,
     data: {
       secret: secret,
     },
@@ -18,8 +19,15 @@ const put =  async (id: string, secret: string): Promise<boolean> => {
   }
 }
 
-const get = async (id: string): Promise<string | undefined> => {
-  let res = await vault({
+const get = async (userid: string, serviceid?: string): Promise<string | undefined> => {
+  let res: VaultResponse;
+  if(serviceid) {
+    res = await vault({
+      method: "read",
+      path: `secret/${userid}/${serviceid}`,
+    });
+  }
+  res = await vault({
     method: "read",
     path: "secret/" + id,
   });

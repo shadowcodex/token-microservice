@@ -1,7 +1,7 @@
 
 interface SecretStore {
-  get: (id: string) => Promise<string | undefined>;
-  put: (id: string, secret: string) => Promise<boolean>;
+  get: (userid: string, ?serviceid: string) => Promise<string | undefined>;
+  put: (userid: string, secret: string) => Promise<boolean>;
 }
 
 export { SecretStore };
