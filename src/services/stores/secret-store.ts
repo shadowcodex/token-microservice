@@ -28,14 +28,14 @@ class SecretStoreResponse {
 
   constructor(userid: string) {
     this.userid = userid;
-    this.secrets = []
+    this.secrets = [];
   }
 
   response() {
     return {
       userid: this.userid,
-      secrets: JSON.stringify(this.secrets)
-    }
+      secrets: JSON.stringify(this.secrets),
+    };
   }
 }
 

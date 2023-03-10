@@ -1,4 +1,8 @@
-import { getToken, getTokenAll, putToken } from "../controllers/serviceController";
+import {
+  getToken,
+  getTokenAll,
+  putToken,
+} from "../controllers/serviceController";
 
 const express = require("express");
 const router = express.Router();
