@@ -63,7 +63,6 @@ describe("/service/github", () => {
       .set("Authorization", `Bearer ${token}`)
       .expect("Content-Type", /json/)
       .expect(200);
-    console.log(response.body);
     expect(response.body.status).toEqual("ok");
   });
 });
